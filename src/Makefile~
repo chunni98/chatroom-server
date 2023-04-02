@@ -1,0 +1,28 @@
+SRC := $(wildcard *.c)
+HEADERS := $(wildcard ../incl/*.h)
+OBJSDIR := ../obj
+OBJS := $(patsubst %.c,$(OBJSDIR)/%.o,$(SRC))
+TARGET := ../bin/main
+RM := rm -rf
+
+
+.PHONY: all clean check
+
+all : $(TARGET)
+
+check:
+	@echo $(OBJS)
+	@echo $(HEADERS)
+	@echo $(SRC)
+	@echo $(TARGET)
+
+
+$(TARGET): $(OBJS)
+	gcc -o $@ $^ -lpthread -l:libjson-c.a -L /usr/local/lib
+
+$(OBJS): $(OBJSDIR)/%.o: %.c $(SRC) $(HEADERS)
+	gcc -o $@ -c $< -Wall -Werror -O2 -g -std=c99 -I ../incl
+
+clean:
+	$(RM) $(TARGET)
+	$(RM) $(OBJS)

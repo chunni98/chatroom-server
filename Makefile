@@ -1,0 +1,18 @@
+CC := gcc
+DEFINES := -DNDEBUG
+INCLUDES := ./incl
+LIBRARYDIR := /usr/local/lib
+LIBRARY := -l:libjson-c.a
+CFLAGS := -Wall -O2 -std=c99 -Werror -I $(INCLUDES) $(DEFINES) -g
+
+export CC DEFINES LIBRARY
+
+
+.PHONY: all clean
+
+all : $(TARGET)
+
+$(TARGET) :
+	make -C ./src && make -C ./obj
+
+
